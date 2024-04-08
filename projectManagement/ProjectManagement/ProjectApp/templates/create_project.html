@@ -1,0 +1,39 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+<!--    &lt;!&ndash; Render formset &ndash;&gt;-->
+<!--    {{ formset.management_form }}-->
+<!--    <div id="formset">-->
+<!--        {{ formset.non_form_errors }}-->
+<!--        {% for form in formset %}-->
+<!--            <div class="formset-row">-->
+<!--                {{ form.id }}-->
+<!--                {{ form.title }}-->
+<!--                {{ form.description }}-->
+<!--                {{ form.start_date }}-->
+<!--                {{ form.end_date }}-->
+<!--                {{ form.team_members }}-->
+<!--                {{ form.status }}-->
+<!--            </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+
+    <button type="button" id="add-formset-row">Add Team Member</button>
+    <button type="submit">Create Project</button>
+</form>
+
+<script>
+    document.getElementById('add-formset-row').addEventListener('click', function() {
+        const formset = document.getElementById('formset');
+        const totalForms = parseInt(formset.querySelector('input[name="form-TOTAL_FORMS"]').value);
+        const newFormHtml = `
+            <div class="formset-row">
+                <input type="hidden" name="form-${totalForms}-id" id="id_form-${totalForms}-id">
+                <!-- Render new form fields here -->
+            </div>
+        `;
+        formset.insertAdjacentHTML('beforeend', newFormHtml);
+        formset.querySelector('input[name="form-TOTAL_FORMS"]').value = totalForms + 1;
+    });
+</script>
